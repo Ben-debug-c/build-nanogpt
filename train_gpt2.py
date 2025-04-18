@@ -1,12 +1,12 @@
 import os
 import math
 import time
-import inspect
-from dataclasses import dataclass
+import inspect                         !!!
+from dataclasses import dataclass       !!!
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
-from hellaswag import render_example, iterate_examples
+from hellaswag import render_example, iterate_examples        !!!
 # -----------------------------------------------------------------------------
 
 class CausalSelfAttention(nn.Module):
@@ -15,7 +15,7 @@ class CausalSelfAttention(nn.Module):
         super().__init__()
         assert config.n_embd % config.n_head == 0
         # key, query, value projections for all heads, but in a batch
-        self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd)
+        self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd) # 把(q,k,v embedding变成进行注意力计算的向量)的投影矩阵
         # output projection
         self.c_proj = nn.Linear(config.n_embd, config.n_embd)
         self.c_proj.NANOGPT_SCALE_INIT = 1
@@ -94,9 +94,9 @@ class GPT(nn.Module):
         self.transformer.wte.weight = self.lm_head.weight
 
         # init params
-        self.apply(self._init_weights)
+        self.apply(self._init_weights)  ！！！
 
-    def _init_weights(self, module):
+    def _init_weights(self, module): ！！！
         if isinstance(module, nn.Linear):
             std = 0.02
             if hasattr(module, 'NANOGPT_SCALE_INIT'):
